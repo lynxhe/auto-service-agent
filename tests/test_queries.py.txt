@@ -1,0 +1,25 @@
+# tests/test_queries.py
+import unittest
+from src.agent_implementation import create_agent, chat_with_agent
+
+class TestAutoAgent(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        """测试前初始化Agent"""
+        cls.agent, _ = create_agent(verbose=False)
+    
+    def test_fault_code_query(self):
+        """测试故障码查询"""
+        response = chat_with_agent(self.agent, "P0300是什么意思？")
+        self.assertIn("缺火", response)
+        self.assertIn("火花塞", response)
+    
+    def test_maintenance_query(self):
+        """测试保养查询"""
+        response = chat_with_agent(self.agent, "5000公里保养")
+        self.assertIn("机油", response)
+    
+    def test_vehicle_info(self):
+        """测试车型参数查询"""
+        response = chat_with_agent(self.agent, "
